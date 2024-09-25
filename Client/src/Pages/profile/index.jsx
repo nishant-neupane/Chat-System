@@ -113,7 +113,6 @@ const Profile = () => {
           </Button>
         </div>
       </div>
-      <div>heii0</div>
     </div>
   );
 };
