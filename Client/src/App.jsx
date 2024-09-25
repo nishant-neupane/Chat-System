@@ -21,7 +21,7 @@ const AuthRoute = ({ children }) => {
 
 const App = () => {
   const { userInfo, setUserInfo } = useAppStore();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getUserData = async () => {
       try {
@@ -37,7 +37,7 @@ const App = () => {
       } catch (error) {
         setUserInfo(undefined);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
     if (!userInfo) {
