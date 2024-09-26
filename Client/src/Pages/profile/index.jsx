@@ -1,5 +1,5 @@
 import { useAppStore } from "@/store";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -19,8 +19,7 @@ const Profile = () => {
   const [image, setimage] = useState(null);
   const [hovered, sethovered] = useState(false);
   const [selectedColor, setselectedColor] = useState(0);
-  
-
+  const fileInputRef = useRef(null);
   useEffect(() => {
     if (userInfo.profileSetup) {
       setfirstName(userInfo.firstName);
@@ -68,6 +67,12 @@ const Profile = () => {
     }
   };
 
+  const handleFileInputClick = () => {
+    // alert("clicked");
+    fileInputRef.current.click();
+  };
+  const handleImageChange = async (event) => {};
+  const handleDelete = async () => {};
   return (
     <div className="bg-[#1b1c24] h-[100vh] flex items-center justify-center flex-col gap-10">
       <div className="flex flex-col gap-10 w-[80vw] md:w-max">
@@ -76,7 +81,7 @@ const Profile = () => {
         </div>
         <div className="grid grid-cols-2 ">
           <div
-            className="h-full w-32 md:w-48 relative flex items-center justify-center"
+            className="h-full w-32 md:w-48 md:h-48 relative flex items-center justify-center"
             onMouseEnter={() => sethovered(true)}
             onMouseLeave={() => sethovered(false)}
           >
@@ -100,7 +105,10 @@ const Profile = () => {
               )}
             </Avatar>
             {hovered && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/50 ring-fuchsia-50 rounded-full">
+              <div
+                className="absolute inset-0 flex items-center justify-center bg-black/50 ring-fuchsia-50 rounded-full"
+                onClick={image ? handleDelete : handleFileInputClick}
+              >
                 {image ? (
                   <FaTrash className="text-white text-3xl cursor-pointer" />
                 ) : (
@@ -109,7 +117,14 @@ const Profile = () => {
               </div>
             )}
             {
-              // <input type="text" />
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden "
+                onChange={handleImageChange}
+                name="profile-image"
+                accept=".png .jpg .jpeg .svg .webp"
+              />
             }
           </div>
           <div className="flex min-w-32 md:min-w-64 flex-col gap-5 text-white items-center justify-center">
