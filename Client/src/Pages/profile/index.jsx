@@ -9,7 +9,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { apiClient } from "@/lib/api-client";
-import { UPDATE_PROFILE_ROUTE } from "@/utils/constants";
+import {
+  ADD_PROFILE_IMAGE_ROUTE,
+  HOST,
+  REMOVE_PROFILE_IMAGE_ROUTE,
+  UPDATE_PROFILE_ROUTE,
+} from "@/utils/constants";
+import { TableRowsSplit } from "lucide-react";
 
 const Profile = () => {
   const { userInfo, setUserInfo } = useAppStore();
@@ -20,11 +26,16 @@ const Profile = () => {
   const [hovered, sethovered] = useState(false);
   const [selectedColor, setselectedColor] = useState(0);
   const fileInputRef = useRef(null);
+
   useEffect(() => {
     if (userInfo.profileSetup) {
       setfirstName(userInfo.firstName);
       setlastName(userInfo.lastName);
       setselectedColor(userInfo.color);
+    }
+    if (userInfo.image) {
+      const imageUrl = `${HOST}/${userInfo.image}`;
+      setimage(imageUrl);
     }
   }, [userInfo]);
 
@@ -71,8 +82,41 @@ const Profile = () => {
     // alert("clicked");
     fileInputRef.current.click();
   };
-  const handleImageChange = async (event) => {};
-  const handleDelete = async () => {};
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    console.log({ file });
+    if (file) {
+      const formData = new FormData();
+      formData.append("profile-image", file);
+      const response = await apiClient.post(ADD_PROFILE_IMAGE_ROUTE, formData, {
+        withCredentials: true,
+      });
+
+      if (response.status === 200 && response.data.image) {
+        setUserInfo({ ...userInfo, image: response.data.image });
+        toast.success("Image updated sucessfully.");
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        setimage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleDelete = async () => {
+    try {
+      const response = await apiClient.delete(REMOVE_PROFILE_IMAGE_ROUTE, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        setUserInfo({ ...userInfo, image: null });
+        toast.success("Image Remove Sucessfully");
+        setimage(null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="bg-[#1b1c24] h-[100vh] flex items-center justify-center flex-col gap-10">
       <div className="flex flex-col gap-10 w-[80vw] md:w-max">
@@ -123,7 +167,7 @@ const Profile = () => {
                 className="hidden "
                 onChange={handleImageChange}
                 name="profile-image"
-                accept=".png .jpg .jpeg .svg .webp"
+                accept=".png,.jpg,.jpeg,.svg,.webp"
               />
             }
           </div>
