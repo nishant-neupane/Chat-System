@@ -11,9 +11,10 @@ const EmptyChatContainer = () => {
         options={animationDefaultOption}
       />
       <div className="text-opacity-80 text-white flex flex-col gap-5 items-center mt-10 lg:text-4xl text-3xl transition-all duration-300 text-center">
-        <h3 className="poopins-medium">
-          Hi<span className="text-purple-500">!</span> <br />Welcome to <br />
-          <span className="text-purple-500">Guff Garam Hai ta</span>
+        <h3 className="poppins-medium">
+          Hi<span className="text-purple-500">!</span> <br />
+          Welcome to <br />
+          <span className="text-purple-500">Guff Garam Hai.</span>
         </h3>
       </div>
     </div>
