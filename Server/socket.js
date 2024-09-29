@@ -20,8 +20,9 @@ const setUpSocket = (server) => {
     }
   };
 
-  io.on("Connection", (socket) => {
-    const userId = socket.handshake.querry.userId;
+  io.on("connection", (socket) => {
+    const userId = socket.handshake.query.userId;
+    // console.log(userId);
     if (userId) {
       userSocketMap.set(userId, socket.id);
       console.log(`User Connected :${userId} with socket ID:${socket.id}`);
