@@ -1,4 +1,4 @@
-import express from "express";
+import express, { application } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -8,6 +8,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import contactsRoutes from "./routes/ContactRoute.js";
 import setUpSocket from "./socket.js";
+import messagesRoutes from "./routes/messagesRoutes.js";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/contacts", contactsRoutes);
+app.use("/api/messages", messagesRoutes)
 
 const server = app.listen(port, () => {
   console.log(`Server is running  http://localhost:${port}`);
