@@ -95,6 +95,7 @@ const NewDM = () => {
                     }}
                   >
                     <div className="w-12 h-12 relative">
+                      
                       <Avatar className="h-12 w-12 rounded-full overflow-hidden">
                         {contact.image ? (
                           <AvatarImage
