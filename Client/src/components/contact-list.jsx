@@ -73,6 +73,7 @@ const ContactList = ({ contacts, isChannel = false }) => {
           </div>
         </div>
       ))}
+      <div>Hello</div>
     </div>
   );
 };
