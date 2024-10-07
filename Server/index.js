@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import contactsRoutes from "./routes/ContactRoute.js";
 import setUpSocket from "./socket.js";
 import messagesRoutes from "./routes/messagesRoutes.js";
+import channelRoutes from "./routes/ChannelRoutes.js";
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/contacts", contactsRoutes);
 app.use("/api/messages", messagesRoutes);
+app.use("/api/channel", channelRoutes);
 
 const server = app.listen(port, () => {
   console.log(`Server is running  http://localhost:${port}`);
@@ -52,7 +54,3 @@ mongoose
   .connect(databaseURL)
   .then(() => console.log("DB Connection Sucessful"))
   .catch((err) => console.log(err.message));
-
-
-
-  
